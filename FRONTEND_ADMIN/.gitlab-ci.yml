@@ -1,0 +1,36 @@
+image: docker:20.10.7
+services:
+  - docker:20.10.7-dind
+
+stages:
+  - build
+  - test
+  - release
+  - deploy
+
+variables:
+  DOCKER_TLS_CERTDIR: "/certs"
+
+before_script:
+  - echo "--------------Digital-ID CI CD-----------------"
+  # - docker info
+
+build:
+  stage: build
+  script:
+    - docker build -t minhvu1502/doan.fe:dev .
+    - docker login -u minhvu1502 -p Minhql123
+    - docker push minhvu1502/doan.fe:dev
+  only:
+    - master
+
+deploy:
+  stage: deploy
+  script:
+    - docker login -u minhvu1502 -p Minhql123
+    - docker pull minhvu1502/doan.fe:dev
+    - if [ "$(docker ps -a | grep doan.fe.api)" ]; then docker stop doan.fe.api; fi
+    - if [ "$(docker ps -a | grep doan.fe.api)" ]; then docker rm doan.fe.api; fi
+    - docker run -d --restart unless-stopped --name doan.fe.api -p 80:80 minhvu1502/doan.fe:dev
+  only:
+    - master
