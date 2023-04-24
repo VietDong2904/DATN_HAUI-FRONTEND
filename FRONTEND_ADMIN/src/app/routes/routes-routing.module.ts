@@ -22,7 +22,7 @@ import { LoginGuard } from '../core/guards/login.guard';
 const routes: Routes = [
   {
     path: '',
-    canActivate: [LoginGuard],
+    // canActivate: [LoginGuard],
     component: LayoutProComponent,
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },

@@ -1,0 +1,116 @@
+{
+    "app": {
+      "name": "CARA FASHION SHOP",
+      "description": "Dashboard",
+      "year": 2021
+    },
+    "user": {
+      "name": "Admin",
+      "avatar": "./assets/tmp/img/avatar.jpg",
+      "email": "cipchk@qq.com"
+    },
+    "menu": [
+      {
+        "text": "Menu",
+        "i18n": "menu.main",
+        "group": true,
+        "hideInBreadcrumb": true,
+        "children": [
+          {
+            "text": "Trang chủ",
+            "i18n": "menu.dashboard",
+            "icon": "anticon anticon-dashboard",
+            "link": "/dashboard"
+          }, 
+          {
+            "text": "Quản lý danh mục",
+            "i18n": "Quản lý danh mục",
+            "hideInBreadcrumb": true,
+            "icon": "anticon anticon-rocket",
+            "shortcutRoot": true,
+            "children": [
+              {
+                "text": "Nhà cung cấp",
+                "i18n": "Nhà cung cấp",
+                "hideInBreadcrumb": true,
+                "icon": "anticon anticon-dashboard",
+                "link": "/seed-management/supplier"
+              }
+              ,
+              {
+                "text": "Kích thước",
+                "i18n": "Kích thước",
+                "hideInBreadcrumb": true,
+                "icon": "anticon anticon-dashboard",
+                "link": "/seed-management/size"
+              }
+              
+            ]
+           },
+          {
+           "text": "Quản lý sản phẩm",
+           "i18n": "Quản lý sản phẩm",
+           "hideInBreadcrumb": false,
+           "icon": "anticon anticon-rocket",
+           "shortcutRoot": true,
+           "children": [
+             {
+               "text": "Loại sản phẩm",
+               "i18n": "Loại sản phẩm",
+               "hideInBreadcrumb": true,
+               "icon": "anticon anticon-dashboard",
+               "link": "/seed-management/category"
+             },             
+             {
+              "text": "Sản phẩm",
+              "i18n": "Sản phẩm",
+              "hideInBreadcrumb": true,
+              "icon": "anticon anticon-dashboard",
+              "link": "/seed-management/product"
+            }
+           ]
+          },
+          {
+            "text": "Quản lý đơn đặt",
+            "i18n": "Quản lý đơn đặt",
+            "hideInBreadcrumb": true,
+            "icon": "anticon anticon-rocket",
+            "shortcutRoot": true,
+            "children": [
+              {
+                "text": "Đơn đặt hàng",
+                "i18n": "Đơn đặt hàng",
+                "hideInBreadcrumb": true,
+                "icon": "anticon anticon-dashboard",
+                "link": "/seed-management/order"
+              }
+            ]
+           },
+           {
+            "text": "Quản trị hệ thống",
+            "i18n": "Quản trị hệ thống",
+            "hideInBreadcrumb": true,
+            "icon": "anticon anticon-rocket",
+            "shortcutRoot": true,
+            "children": [
+              {
+                "text": "Tài khoản",
+                "i18n": "Tài khoản",
+                "hideInBreadcrumb": true,
+                "icon": "anticon anticon-dashboard",
+                "link": "/seed-management/user"
+              },    
+              {
+                "text": "Quyền",
+                "i18n": "Quyền",
+                "hideInBreadcrumb": true,
+                "icon": "anticon anticon-dashboard",
+                "link": "/seed-management/role"
+              }
+            ]
+           }
+        ]
+      }
+    ]
+  }
+  

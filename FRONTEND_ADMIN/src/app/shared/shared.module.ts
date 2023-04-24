@@ -14,6 +14,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { CountdownModule } from 'ngx-countdown';
 
 const THIRDMODULES = [CountdownModule, DragDropModule];
+import { PRO_SHARED_COMPONENTS } from '../layout/pro';
 
 import { LockModalComponent } from './components/modal/lock-modal/lock-modal.component';
 import { QtvModalComponent } from './components/modal/qtv-modal/qtv-modal.component';
