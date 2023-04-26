@@ -1,0 +1,193 @@
+<section class="">
+    <div class="container py-3">
+      <div class="row d-flex align-items-top justify-content-center ">
+        
+        <div  class=" bg-white border border-top  p-3 col-sm-12">
+          <!-- <div style="text-align: center">
+            <p *ngIf="isLoginErr" style="color: red" class="error">{{ errorMsg }}</p>
+            <p *ngIf="isSignupSuccess" style="color: red" class="success">{{ errorMsg }}</p>
+          </div> -->
+          <p-tabView>
+            <p-tabPanel header="Sign In">
+              <form [formGroup]="formLogin"  > 
+                <div class="form-group">
+                  <h6 class="d-block">Username(*)</h6>
+                  <span class="p-input-icon-left w-100">
+                    <i class="pi pi-user"></i>
+                    <input class="w-100" type="text" pInputText placeholder="Enter your username" formControlName="username" />
+                  </span>
+                  <div
+                    class="mt-1"
+                    *ngIf="formLogin.controls['username'].touched && formLogin.controls['username'].getError('required')">
+                    <h6 class="text-danger">Username need to fill</h6>
+                  </div>
+                </div>
+                <div class="mt-3 form-group">
+                  <h6 class="d-block">Password(*)</h6>
+                  <span class="p-input-icon-left w-100">
+                    <i class="pi pi-key"></i>
+                    <input class="w-100" type="{{ passwordTextTypeLogin ? 'text' : 'password' }}" pInputText placeholder="Enter your password" formControlName="password" />
+                  </span>
+                  <div
+                    class="mt-1"
+                    *ngIf="formLogin.controls['password'].touched && formLogin.controls['password'].getError('required')">
+                    <h6 class="text-danger">Password need to fill</h6>
+                  </div>
+                </div>
+                <div class="mt-2 field-checkbox d-flex form-group">
+                  <p-checkbox [binary]="true" inputId="binary" (onChange)="togglePasswordTextTypeLogin($event)"></p-checkbox>
+                  <h6 class="mb-0 ml-2" for="binary">Show password</h6>
+                </div>
+                <div class="text-center d-flex justify-content-center w-100 mt-3">
+                  
+                </div>
+              
+                <div class="mt-3 d-flex justify-content-center">
+                  <button
+                    pButton
+                    pRipple
+                    type="button"
+                    label="Sign In"
+                    class="p-button-raised w-100"
+                    (click)="login()"
+                    [disabled]="formLogin.invalid"
+                    ></button>
+                </div>
+              </form>
+            </p-tabPanel>
+            <p-tabPanel header="Sign Up" >
+              <form [formGroup]="formSignUp"  >
+                <div class=" form-group">
+                    <h6 class="d-block">Fullname(*)</h6>
+                    <span class="p-input-icon-left w-100">
+                      <i class="pi pi-tag"></i>
+                      <input class="w-100" type="text" pInputText placeholder="Enter your fullname" formControlName="name" />
+                    </span>
+                    <div
+                      class="mt-1"
+                      *ngIf="formSignUp.controls['name'].touched && formSignUp.controls['name'].getError('required')">
+                      <h6 class="text-danger">Fullname need to fill</h6>
+                    </div>
+                </div>
+                <div class="mt-3 form-group">
+                  <h6 class="d-block">Username(*)</h6>
+                  <span class="p-input-icon-left w-100">
+                    <i class="pi pi-user"></i>
+                    <input class="w-100" type="text" pInputText placeholder="Enter your username" formControlName="username" />
+                  </span>
+                  <div
+                    class="mt-1"
+                    *ngIf="formSignUp.controls['username'].touched && formSignUp.controls['username'].getError('required')">
+                    <h6 class="text-danger">Username need to fill</h6>
+                  </div>
+                </div>
+                <div class="mt-3 form-group">
+                  <h6 class="d-block">Email(*)</h6>
+                  <span class="p-input-icon-left w-100">
+                    <i class="pi pi-envelope"></i>
+                    <input class="w-100" type="email" pInputText placeholder="Enter your email" formControlName="email" />
+                  </span>
+                  <div
+                    class="mt-1"
+                    *ngIf="formSignUp.controls['email'].touched && formSignUp.controls['email'].getError('required')">
+                    <h6 class="text-danger">Email need to fill</h6>
+                  </div>
+                </div>
+                <div class="mt-3 form-group">
+                  <h6 class="d-block">Phone number(*)</h6>
+                  <span class="p-input-icon-left w-100">
+                    <i class="pi pi-envelope"></i>
+                    <input class="w-100" type="tel" pInputText placeholder="Enter your email" formControlName="phoneNumber" />
+                  </span>
+                  <div
+                    class="mt-1"
+                    *ngIf="formSignUp.controls['phoneNumber'].touched && formSignUp.controls['phoneNumber'].getError('required')">
+                    <h6 class="text-danger">Phone number need to fill</h6>
+                  </div>
+                </div>
+                <div class="mt-3 form-group">
+                  <h6 class="d-block">Password(*)</h6>
+                  <span class="p-input-icon-left w-100">
+                    <i class="pi pi-key"></i>
+                    <input class="w-100" type="{{ passwordTextTypeRegister ? 'text' : 'password' }}" pInputText placeholder="Enter your password" formControlName="password" />
+                  </span>
+                  <div
+                    class="mt-1"
+                    *ngIf="formSignUp.controls['password'].touched && formSignUp.controls['password'].getError('required')">
+                    <h6 class="text-danger">Password need to fill</h6>
+                  </div>
+                </div>
+                <div class="mt-2 field-checkbox d-flex form-group">
+                  <p-checkbox [binary]="true"  inputId="binary" (onChange)="togglePasswordTextTypeRegister($event)"></p-checkbox>
+                  <h6 class="mb-0 ml-2" for="binary">Show password</h6>
+                </div>
+                <div class="mt-3 form-group">
+                  <h6 class="d-block">Sex(*)</h6>
+                  <div
+                    class="mt-1">
+                    <nz-radio-group formControlName="sex">
+                      <label nz-radio [nzValue]="true" aria-checked="true">Male</label>
+                      <label nz-radio [nzValue]="false">Female</label>
+                    </nz-radio-group>
+                  </div>
+                </div>
+                <div class="mt-3 form-group">
+                  <div class="custom-control custom-checkbox">
+                    <input
+                      type="checkbox"
+                      formControlName="agree"
+                      class="custom-control-input"
+                      id="register-policy"
+                      required
+                    />
+                    <label class="custom-control-label" for="register-policy"
+                      ><h6 class="d-inline">I gree with </h6>
+                      <a href="#">policy</a> *</label
+                    >
+                  </div>
+                </div>
+                <div class="mt-3 d-flex justify-content-center">
+                  <button
+                    pButton
+                    pRipple
+                    type="submit"
+                    label="Sign Up"
+                    class="p-button-raised w-100"
+                    (click)="register()"
+                    [disabled]="formSignUp.invalid"
+                    ></button>
+                </div>
+              </form>
+            </p-tabPanel>
+          </p-tabView>
+          
+        </div>
+      </div>
+    </div>
+    <!-- <p-toast position="top-left" key="tl"></p-toast>
+    <p-toast position="top-center" key="tc"></p-toast>
+    <p-toast position="bottom-center" key="bc"></p-toast>
+    
+    <p-toast position="bottom-center" key="c"  [baseZIndex]="5000">
+        <ng-template let-message pTemplate="message">
+            <div class="flex flex-column" style="flex: 1">
+                <div class="text-center">
+                    <i class="pi pi-exclamation-triangle" style="font-size: 2.6rem"></i>
+                    <h4>{{message.summary}}</h4>
+                    <p>{{message.detail}}</p>
+                </div>
+                <div class="grid p-fluid">
+                    <div class="col-6">
+                        <button type="button" pButton  label="Yes" class="p-button-success"></button>
+                    </div>
+                    <div class="col-6">
+                        <button type="button" pButton  label="No" class="p-button-secondary"></button>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+    </p-toast> -->
+  </section>
+  <p-toast></p-toast>
+
+  
