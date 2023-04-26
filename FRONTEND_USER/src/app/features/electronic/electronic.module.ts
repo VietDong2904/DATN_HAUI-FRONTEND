@@ -48,13 +48,23 @@ import { NzEmptyModule } from 'ng-zorro-antd/empty';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { LoginPageComponent } from './login-page/login-page.component';
 import { LayoutPageComponent } from './layout-page/layout-page.component';
+import { HeaderPageComponent } from './header-page/header-page.component';
+import { FooterPageComponent } from './footer-page/footer-page.component';
+import { BenefitsComponent } from './benefits/benefits.component';
+import { AboutUsComponent } from './about-us/about-us.component';
+import { ContactComponent } from './contact/contact.component';
 export function HttpLoaderFactory(http: HttpClient) {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
   }
 @NgModule({
     declarations: [
         LoginPageComponent,
-        LayoutPageComponent
+        LayoutPageComponent,
+        HeaderPageComponent,
+        FooterPageComponent,
+        BenefitsComponent,
+        AboutUsComponent,
+        ContactComponent
     ],
     imports: [
         BrowserModule,
