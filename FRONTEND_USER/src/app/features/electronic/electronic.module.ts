@@ -55,6 +55,9 @@ import { AboutUsComponent } from './about-us/about-us.component';
 import { ContactComponent } from './contact/contact.component';
 import { HomePageComponent } from './home-page/home-page.component';
 import { ShopPageComponent } from './shop-page/shop-page.component';
+import { AccountDetailComponent } from './account-detail/account-detail.component';
+import { ProductDetailComponent } from './product-detail/product-detail.component';
+import { CartDetailComponent } from './cart-detail/cart-detail.component';
 export function HttpLoaderFactory(http: HttpClient) {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
   }
@@ -68,7 +71,10 @@ export function HttpLoaderFactory(http: HttpClient) {
         AboutUsComponent,
         ContactComponent,
         HomePageComponent,
-        ShopPageComponent
+        ShopPageComponent,
+        AccountDetailComponent,
+        ProductDetailComponent,
+        CartDetailComponent
     ],
     imports: [
         BrowserModule,

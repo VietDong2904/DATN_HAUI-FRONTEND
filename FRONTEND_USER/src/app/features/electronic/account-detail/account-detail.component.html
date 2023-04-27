@@ -1,0 +1,1035 @@
+
+<section id="page-header" class="about-header">
+    <h2>#aboutyou</h2>
+    <p>Your support by this account make us happy</p>
+</section>
+<div class="row section-p1">
+    <p-tabView styleClass="tabview-custom">
+        <p-tabPanel>
+            <ng-template pTemplate="header">
+                <i class="pi pi-user"></i>
+                <span>Your account information</span>
+            </ng-template>
+            <h3>Your profile</h3>
+            <p>Manage your information to protect your account</p>
+            <p-divider></p-divider>
+            
+            <div class="row">
+                <div class="col-md-2">
+                    <div class="row">
+                      <div class=" text-center">
+                          <p-avatar image="{{avatar}}" styleClass="mr-2" shape="circle" size="xlarge"></p-avatar>
+                          <p>{{userInfo.name}}</p>
+                        
+                      </div>
+                    </div>
+                </div>
+                <form class="col-md-7" [formGroup]="formRegister" (ngSubmit)="submitForm()">
+                    <div class="row input-group">
+                        <span class="col-md-2">Username</span>
+                        <div class="input col-md-10">
+                            <span class="p-input-icon-left w-100 ">
+                                <i class="pi pi-user"></i>
+                                <input formControlName="username" class="w-100" type="text" pInputText placeholder="Enter your username" />
+                            </span>
+                        </div>
+                    </div>
+                    <div class="row input-group">
+                        <span class="col-md-2">Email</span>
+                        <div class="input col-md-10">
+                            <span class="p-input-icon-left w-100 ">
+                                <i class="pi pi-envelope"></i>
+                                <input formControlName="email" class="w-100" type="text" pInputText placeholder="Enter your email" />
+                            </span>
+                        </div>
+                    </div>
+                    <div class="row input-group">
+                        <span class="col-md-2">Fullname</span>
+                        <div class="input col-md-10">
+                            <span class="p-input-icon-left w-100 ">
+                                <i class="pi pi-info-circle"></i>
+                                <input formControlName="nickname" class="w-100" type="text" pInputText placeholder="Enter your fullname" />
+                            </span>
+                        </div>
+                    </div>
+                    <div class="row input-group">
+                        <span class="col-md-2">Phone number</span>
+                        <div class="input col-md-10">
+                            <span class="p-input-icon-left w-100 ">
+                                <i class="pi pi-phone"></i>
+                                <input formControlName="phoneNumber" class="w-100" type="text" pInputText placeholder="Enter your phonenumber" />
+                            </span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <button
+                        pButton
+                        pRipple
+                        type="submit"
+                        label="Save"
+                        class="p-button-raised"
+                        ></button>
+                    </div>
+                </form>
+
+                <div class="col-md-3 text-center">
+                    <span class="mb-1 d-block">Upload your avatar</span>
+                    <div class="col-md-12 text-center">
+                        <p-avatar image="{{avatarDisplayUrl}}" styleClass="mr-2" shape="circle" size="xlarge"></p-avatar>
+
+                    </div>
+                    <nz-upload
+                            [nzShowUploadList]="false"
+                            [nzBeforeUpload]="beforeUpload"
+                            nzMultiple="false"
+                            (nzChange)="handleChange($event)"
+                            [nzAction]="uploadUrl"
+                            [nzHeaders]="{ authorization: 'authorization-text' }"
+                          >
+                            <button pButton class="mt-3" ><i class="pi pi-upload"></i>Upload</button>
+                          </nz-upload>
+                          <p>Max size: 2 MB</p>
+                          <p>Types:.JPEG, .PNG</p>
+                </div>
+
+               
+            </div>
+        </p-tabPanel>
+        <p-tabPanel header="Header II">
+            <ng-template pTemplate="header">
+                <i class="pi pi-shopping-bag"></i>
+                <span>Your purchase</span>
+            </ng-template>
+            <h3>Your purchases</h3>
+            <p>Manage your purchases</p>
+            <p-divider></p-divider>
+            <p-tabView>
+                <p-tabPanel header="All purchases">
+                    <div class="mt-3">
+                        <p-tabView>
+                            <p-tabPanel *ngFor="let item of listOrderAll; index as i" header="Purchase {{i+1}}">
+                                <div class="col-md-12">
+                                    <nz-card style="width: 100%" [nzTitle]="allTitle">
+                                      <div class="row">
+                                        <div class="col-md-12">
+                                          <div *ngFor="let prod of item.listProducts" class="row mt-3" style="border-bottom: 1px solid #eaeaea">
+                                            <div class="col-md-2">
+                                              <img [src]="baseFile + prod.attachments[0]" width="100" height="100" alt="Product Image" />
+                                            </div>
+                                            <div class="col-md-8">
+                                              <div class="row">
+                                                <div class="col-md-12">
+                                                  <p (click)="viewProdDetail(prod.id)" style="font-weight: bold; cursor: pointer">
+                                                    {{ prod.name }}
+                                                  </p>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-10">
+                                                      <p class="text-muted font-weight-normal font-italic d-block">
+                                                        Loại sản phẩm:
+                                                        <span>{{ prod.categoryString }}</span>
+                                                      </p>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                      <p style="font-weight: bold">x{{ prod.count }}</p>
+                                                    </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                            <div class="col-md-2 item-center flex-block">
+                                              <h5 class="price-out">{{ prod.price | currency: 'VND' }}</h5>
+                                              <h5>{{ prod.price - prod.discount | currency: 'VND' }}</h5>
+                                            </div>
+                                          </div>
+                                          <div class="row mt-3">
+                                            <div class="col-md-12 pull-right">
+                                              <img class="img-price" src="../../../../assets//images/price.png" alt="" />
+                                              Tổng số tiền:
+                                              <span style="font-size: 25px" class="text-red">{{ item.grandTotal | currency: 'VND' }}</span>
+                                            </div>
+                                          </div>
+                                          <div class="row">
+                                            <div class="col-md-12 pull-right">
+                                              <p-button
+                                              styleClass="p-button-primary p-button-sm p-button-outlined" class="me-3"
+                                                (click)="rate(item)"
+                                                
+                                                [ngClass]="{ 'text-highlight': item.status === 3 ? true : false }"
+                                                *ngIf="item.status === 3"
+                                                label="Review"
+                                              >
+                                               
+                                              </p-button>
+                                              <p-button (click)="viewDetailOrder(item)"label="Order detail" styleClass="p-button-primary p-button-sm p-button-outlined" class="me-3" ></p-button>
+                                              <p-button
+                                                styleClass="p-button-danger p-button-sm p-button-outlined"
+                                                (click)="buildAgain()"
+                                                [ngClass]="{ 'text-highlight': item.status === -1 ? true : false }"
+                                                *ngIf="item.status === 3 || item.status === -1"
+                                                label="Buy again"
+                                              >
+                                              </p-button>
+                                              <p-button
+                                                *ngIf="item.status === 0 || (item.status === 1 && item.status !== -1)"
+                                                
+                                                label="Cancel" styleClass="p-button-danger p-button-sm p-button-outlined"
+                                                nzType="default"
+                                                (click)="cancelOrder($event,item)"
+                                              >
+                                              </p-button>
+                                              <p-toast></p-toast>
+                                              <p-confirmPopup></p-confirmPopup>
+                                              <!-- <p-button (click)="cancelOrder($event, item)" icon="pi pi-times" styleClass="p-button-danger p-button-sm p-button-outlined" class="me-3" label="Cancel"></p-button> -->
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </nz-card>
+                                    <ng-template #allTitle>
+                                      <div class="row">
+                                        <div class="col-md-2 text-name-order">Order {{ item.code }}</div>
+                                        <span class="col-md-10 " style="text-align: right;">
+                                          <span *ngIf="item.status === 0" class="text-status">To confirm</span>
+                                          <span *ngIf="item.status === 1" class="text-status">To receive</span>
+                                          <span *ngIf="item.status === 2" class="text-status">Shipping</span>
+                                          <span *ngIf="item.status === 3 || item.status === 5" class="text-status">
+                                            <span style="color: black"><i class="fas fa-truck"></i> Shipped |</span> Đã giao hàng
+                                          </span>
+                                          <span *ngIf="item.status === -1" class="text-status">Canceled</span>
+                                        </span>
+                                      </div>
+                                    </ng-template>
+                                  </div>
+                            </p-tabPanel>
+                        </p-tabView>
+                    </div>
+
+                    <div *ngIf="listOrderAll.length ===0 " class="mt-3 d-flex justify-content-center">
+                        <img src="/assets/images/empty-cart.png" alt="">
+                    </div>
+                </p-tabPanel>
+                <p-tabPanel header="To confirm">
+                    <div class="mt-3">
+                        <p-tabView>
+                            <p-tabPanel *ngFor="let item of listOrder0; index as i" header="Purchase {{i+1}}">
+                                <div class="col-md-12">
+                                    <nz-card style="width: 100%" [nzTitle]="allTitle">
+                                      <div class="row">
+                                        <div class="col-md-12">
+                                          <div *ngFor="let prod of item.listProducts" class="row mt-3" style="border-bottom: 1px solid #eaeaea">
+                                            <div class="col-md-2">
+                                              <img [src]="baseFile + prod.attachments[0]" width="100" height="100" alt="Product Image" />
+                                            </div>
+                                            <div class="col-md-8">
+                                              <div class="row">
+                                                <div class="col-md-12">
+                                                  <p (click)="viewProdDetail(prod.id)" style="font-weight: bold; cursor: pointer">
+                                                    {{ prod.name }}
+                                                  </p>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-10">
+                                                      <p class="text-muted font-weight-normal font-italic d-block">
+                                                        Loại sản phẩm:
+                                                        <span>{{ prod.categoryString }}</span>
+                                                      </p>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                      <p style="font-weight: bold">x{{ prod.count }}</p>
+                                                    </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                            <div class="col-md-2 item-center flex-block">
+                                              <h5 class="price-out">{{ prod.price | currency: 'VND' }}</h5>
+                                              <h5>{{ prod.price - prod.discount | currency: 'VND' }}</h5>
+                                            </div>
+                                          </div>
+                                          <div class="row mt-3">
+                                            <div class="col-md-12 pull-right">
+                                              <img class="img-price" src="../../../../assets//images/price.png" alt="" />
+                                              Tổng số tiền:
+                                              <span style="font-size: 25px" class="text-red">{{ item.grandTotal | currency: 'VND' }}</span>
+                                            </div>
+                                          </div>
+                                          <div class="row">
+                                            <div class="col-md-12 pull-right">
+                                              <p-button
+                                              styleClass="p-button-primary p-button-sm p-button-outlined" class="me-3"
+                                                (click)="rate(item)"
+                                                
+                                                [ngClass]="{ 'text-highlight': item.status === 3 ? true : false }"
+                                                *ngIf="item.status === 3"
+                                                label="Review"
+                                              >
+                                            </p-button>
+                                              
+                                              <p-button (click)="viewDetailOrder(item)"label="Order detail" styleClass="p-button-primary p-button-sm p-button-outlined" class="me-3" ></p-button>
+                                              <p-button
+                                                styleClass="p-button-danger p-button-sm p-button-outlined"
+                                                (click)="buildAgain()"
+                                                [ngClass]="{ 'text-highlight': item.status === -1 ? true : false }"
+                                                *ngIf="item.status === 3 || item.status === -1"
+                                                label="Buy again"
+                                              >
+                                              </p-button>
+                                              <p-button
+                                                *ngIf="item.status === 0 || (item.status === 1 && item.status !== -1)"
+                                                
+                                                label="Cancel" styleClass="p-button-danger p-button-sm p-button-outlined"
+                                                nzType="default"
+                                                (click)="cancelOrder($event,item)"
+                                              >
+                                              </p-button>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </nz-card>
+                                    <ng-template #allTitle>
+                                      <div class="row">
+                                        <div class="col-md-2 text-name-order">Order {{ item.code }}</div>
+                                        <span class="col-md-10 " style="text-align: right;">
+                                          <span *ngIf="item.status === 0" class="text-status">To confirm</span>
+                                          <span *ngIf="item.status === 1" class="text-status">To receive</span>
+                                          <span *ngIf="item.status === 2" class="text-status">Shipping</span>
+                                          <span *ngIf="item.status === 3 || item.status === 5" class="text-status">
+                                            <span style="color: black"><i class="fas fa-truck"></i> Shipped |</span> Đã giao hàng
+                                          </span>
+                                          <span *ngIf="item.status === -1" class="text-status">Canceled</span>
+                                        </span>
+                                      </div>
+                                    </ng-template>
+                                  </div>
+                            </p-tabPanel>
+                        </p-tabView>
+                    </div>
+                    
+                    <div *ngIf="listOrder0.length ===0 " class="mt-3 d-flex justify-content-center">
+                        <img width="100px" height="100px" src="/assets/images/empty-cart.png" alt="">
+                    </div>
+                </p-tabPanel>
+
+                <p-tabPanel header="To receive">
+                    <div class="mt-3">
+                        <p-tabView>
+                            <p-tabPanel *ngFor="let item of listOrder1; index as i" header="Purchase {{i+1}}">
+                                <div class="col-md-12">
+                                    <nz-card style="width: 100%" [nzTitle]="allTitle">
+                                      <div class="row">
+                                        <div class="col-md-12">
+                                          <div *ngFor="let prod of item.listProducts" class="row mt-3" style="border-bottom: 1px solid #eaeaea">
+                                            <div class="col-md-2">
+                                              <img [src]="baseFile + prod.attachments[0]" width="100" height="100" alt="Product Image" />
+                                            </div>
+                                            <div class="col-md-8">
+                                              <div class="row">
+                                                <div class="col-md-12">
+                                                  <p (click)="viewProdDetail(prod.id)" style="font-weight: bold; cursor: pointer">
+                                                    {{ prod.name }}
+                                                  </p>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-10">
+                                                      <p class="text-muted font-weight-normal font-italic d-block">
+                                                        Loại sản phẩm:
+                                                        <span>{{ prod.categoryString }}</span>
+                                                      </p>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                      <p style="font-weight: bold">x{{ prod.count }}</p>
+                                                    </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                            <div class="col-md-2 item-center flex-block">
+                                              <h5 class="price-out">{{ prod.price | currency: 'VND' }}</h5>
+                                              <h5>{{ prod.price - prod.discount | currency: 'VND' }}</h5>
+                                            </div>
+                                          </div>
+                                          <div class="row mt-3">
+                                            <div class="col-md-12 pull-right">
+                                              <img class="img-price" src="../../../../assets//images/price.png" alt="" />
+                                              Tổng số tiền:
+                                              <span style="font-size: 25px" class="text-red">{{ item.grandTotal | currency: 'VND' }}</span>
+                                            </div>
+                                          </div>
+                                          <div class="row">
+                                            <div class="col-md-12 pull-right">
+                                              <p-button
+                                              styleClass="p-button-primary p-button-sm p-button-outlined" class="me-3"
+                                                (click)="rate(item)"
+                                                
+                                                [ngClass]="{ 'text-highlight': item.status === 3 ? true : false }"
+                                                *ngIf="item.status === 3"
+                                                label="Review"
+                                              >
+                                               
+                                              </p-button>
+                                              <p-button (click)="viewDetailOrder(item)"label="Order detail" styleClass="p-button-primary p-button-sm p-button-outlined" class="me-3" ></p-button>
+                                              <p-button
+                                                styleClass="p-button-danger p-button-sm p-button-outlined"
+                                                (click)="buildAgain()"
+                                                [ngClass]="{ 'text-highlight': item.status === -1 ? true : false }"
+                                                *ngIf="item.status === 3 || item.status === -1"
+                                                label="Buy again"
+                                              >
+                                              </p-button>
+                                              <p-button
+                                                *ngIf="item.status === 0 || (item.status === 1 && item.status !== -1)"
+                                                
+                                                label="Cancel" styleClass="p-button-danger p-button-sm p-button-outlined"
+                                                nzType="default"
+                                                (click)="cancelOrder($event,item)"
+                                              >
+                                              </p-button>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </nz-card>
+                                    <ng-template #allTitle>
+                                      <div class="row">
+                                        <div class="col-md-2 text-name-order">Order {{ item.code }}</div>
+                                        <span class="col-md-10 " style="text-align: right;">
+                                          <span *ngIf="item.status === 0" class="text-status">To confirm</span>
+                                          <span *ngIf="item.status === 1" class="text-status">To receive</span>
+                                          <span *ngIf="item.status === 2" class="text-status">Shipping</span>
+                                          <span *ngIf="item.status === 3 || item.status === 5" class="text-status">
+                                            <span style="color: black"><i class="fas fa-truck"></i> Shipped |</span> Đã giao hàng
+                                          </span>
+                                          <span *ngIf="item.status === -1" class="text-status">Canceled</span>
+                                        </span>
+                                      </div>
+                                    </ng-template>
+                                  </div>
+                            </p-tabPanel>
+                        </p-tabView>
+                    </div>
+                    <div *ngIf="listOrder1.length ===0 " class="mt-3 d-flex justify-content-center">
+                        <img width="100px" height="100px" src="/assets/images/empty-cart.png" alt="">
+                    </div>
+  
+                </p-tabPanel>
+
+                <p-tabPanel header="Shipping">
+                    <div class="mt-3">
+                        <p-tabView>
+                            <p-tabPanel *ngFor="let item of listOrder2; index as i" header="Purchase {{i+1}}">
+                                <div class="col-md-12">
+                                    <nz-card style="width: 100%" [nzTitle]="allTitle">
+                                      <div class="row">
+                                        <div class="col-md-12">
+                                          <div *ngFor="let prod of item.listProducts" class="row mt-3" style="border-bottom: 1px solid #eaeaea">
+                                            <div class="col-md-2">
+                                              <img [src]="baseFile + prod.attachments[0]" width="100" height="100" alt="Product Image" />
+                                            </div>
+                                            <div class="col-md-8">
+                                              <div class="row">
+                                                <div class="col-md-12">
+                                                  <p (click)="viewProdDetail(prod.id)" style="font-weight: bold; cursor: pointer">
+                                                    {{ prod.name }}
+                                                  </p>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-10">
+                                                      <p class="text-muted font-weight-normal font-italic d-block">
+                                                        Loại sản phẩm:
+                                                        <span>{{ prod.categoryString }}</span>
+                                                      </p>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                      <p style="font-weight: bold">x{{ prod.count }}</p>
+                                                    </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                            <div class="col-md-2 item-center flex-block">
+                                              <h5 class="price-out">{{ prod.price | currency: 'VND' }}</h5>
+                                              <h5>{{ prod.price - prod.discount | currency: 'VND' }}</h5>
+                                            </div>
+                                          </div>
+                                          <div class="row mt-3">
+                                            <div class="col-md-12 pull-right">
+                                              <img class="img-price" src="../../../../assets//images/price.png" alt="" />
+                                              Tổng số tiền:
+                                              <span style="font-size: 25px" class="text-red">{{ item.grandTotal | currency: 'VND' }}</span>
+                                            </div>
+                                          </div>
+                                          <div class="row">
+                                            <div class="col-md-12 pull-right">
+                                              <p-button
+                                              styleClass="p-button-primary p-button-sm p-button-outlined" class="me-3"
+                                                (click)="rate(item)"
+                                                
+                                                [ngClass]="{ 'text-highlight': item.status === 3 ? true : false }"
+                                                *ngIf="item.status === 3"
+                                                label="Review"
+                                              >
+                                              
+                                               
+                                              </p-button>
+                                              <p-button (click)="viewDetailOrder(item)"label="Order detail" styleClass="p-button-primary p-button-sm p-button-outlined" class="me-3" ></p-button>
+                                              <p-button
+                                                styleClass="p-button-danger p-button-sm p-button-outlined"
+                                                (click)="buildAgain()"
+                                                [ngClass]="{ 'text-highlight': item.status === -1 ? true : false }"
+                                                *ngIf="item.status === 3 || item.status === -1"
+                                                label="Buy again"
+                                              >
+                                              </p-button>
+                                              <p-button
+                                                *ngIf="item.status === 0 || (item.status === 1 && item.status !== -1)"
+                                                
+                                                label="Cancel" styleClass="p-button-danger p-button-sm p-button-outlined"
+                                                nzType="default"
+                                                (click)="cancelOrder($event,item)"
+                                              >
+                                              </p-button>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </nz-card>
+                                    <ng-template #allTitle>
+                                      <div class="row">
+                                        <div class="col-md-2 text-name-order">Order {{ item.code }}</div>
+                                        <span class="col-md-10 " style="text-align: right;">
+                                          <span *ngIf="item.status === 0" class="text-status">To confirm</span>
+                                          <span *ngIf="item.status === 1" class="text-status">To receive</span>
+                                          <span *ngIf="item.status === 2" class="text-status">Shipping</span>
+                                          <span *ngIf="item.status === 3 || item.status === 5" class="text-status">
+                                            <span style="color: black"><i class="fas fa-truck"></i> Shipped |</span> Đã giao hàng
+                                          </span>
+                                          <span *ngIf="item.status === -1" class="text-status">Canceled</span>
+                                        </span>
+                                      </div>
+                                    </ng-template>
+                                  </div>
+                            </p-tabPanel>
+                        </p-tabView>
+                    </div>
+                    
+                    <div *ngIf="listOrder2.length ===0 " class="mt-3 d-flex justify-content-center">
+                        <img width="100px" height="100px" src="/assets/images/empty-cart.png" alt="">
+                    </div>
+                </p-tabPanel>
+
+                <p-tabPanel header="Shipped">
+                    <div class="mt-3">
+                        <p-tabView>
+                            <p-tabPanel *ngFor="let item of listOrder3; index as i" header="Purchase {{i+1}}">
+                                <div class="col-md-12">
+                                    <nz-card style="width: 100%" [nzTitle]="allTitle">
+                                      <div class="row">
+                                        <div class="col-md-12">
+                                          <div *ngFor="let prod of item.listProducts" class="row mt-3" style="border-bottom: 1px solid #eaeaea">
+                                            <div class="col-md-2">
+                                              <img [src]="baseFile + prod.attachments[0]" width="100" height="100" alt="Product Image" />
+                                            </div>
+                                            <div class="col-md-8">
+                                              <div class="row">
+                                                <div class="col-md-12">
+                                                  <p (click)="viewProdDetail(prod.id)" style="font-weight: bold; cursor: pointer">
+                                                    {{ prod.name }}
+                                                  </p>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-10">
+                                                      <p class="text-muted font-weight-normal font-italic d-block">
+                                                        Loại sản phẩm:
+                                                        <span>{{ prod.categoryString }}</span>
+                                                      </p>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                      <p style="font-weight: bold">x{{ prod.count }}</p>
+                                                    </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                            <div class="col-md-2 item-center flex-block">
+                                              <h5 class="price-out">{{ prod.price | currency: 'VND' }}</h5>
+                                              <h5>{{ prod.price - prod.discount | currency: 'VND' }}</h5>
+                                            </div>
+                                          </div>
+                                          <div class="row mt-3">
+                                            <div class="col-md-12 pull-right">
+                                              <img class="img-price" src="../../../../assets//images/price.png" alt="" />
+                                              Tổng số tiền:
+                                              <span style="font-size: 25px" class="text-red">{{ item.grandTotal | currency: 'VND' }}</span>
+                                            </div>
+                                          </div>
+                                          <div class="row">
+                                            <div class="col-md-12 pull-right">
+                                              <p-button
+                                              styleClass="p-button-primary p-button-sm p-button-outlined" class="me-3"
+                                                (click)="rate(item)"
+                                                
+                                                [ngClass]="{ 'text-highlight': item.status === 3 ? true : false }"
+                                                *ngIf="item.status === 3"
+                                                label="Review"
+                                              >
+                                               
+                                              </p-button>
+                                              <p-toast></p-toast>
+                                              <p-confirmPopup></p-confirmPopup>
+                                              <p-button (click)="changeStatus($event,item)" icon="pi pi-check" styleClass="p-button-primary p-button-sm p-button-outlined" class="me-3" label="Confirm"></p-button>
+                                              
+                                              <!-- <p-button (click)="changeStatus(item)" class="text-highlight" styleClass="p-button-primary p-button-sm p-button-outlined" class="me-3" label="Received">
+                                                
+                                              </p-button> -->
+                                              <p-button (click)="viewDetailOrder(item)"label="Order detail" styleClass="p-button-primary p-button-sm p-button-outlined" class="me-3" ></p-button>
+                                              <p-button
+                                                styleClass="p-button-danger p-button-sm p-button-outlined"
+                                                (click)="buildAgain()"
+                                                [ngClass]="{ 'text-highlight': item.status === -1 ? true : false }"
+                                                *ngIf="item.status === 3 || item.status === -1"
+                                                label="Buy again"
+                                              >
+                                              </p-button>
+                                              <p-button
+                                                *ngIf="item.status === 0 || (item.status === 1 && item.status !== -1)"
+                                                
+                                                label="Cancel" styleClass="p-button-danger p-button-sm p-button-outlined"
+                                                nzType="default"
+                                                (click)="cancelOrder($event,item)"
+                                              >
+                                              </p-button>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </nz-card>
+                                    <ng-template #allTitle>
+                                      <div class="row">
+                                        <div class="col-md-2 text-name-order">Order {{ item.code }}</div>
+                                        <span class="col-md-10 " style="text-align: right;">
+                                          <span *ngIf="item.status === 0" class="text-status">To confirm</span>
+                                          <span *ngIf="item.status === 1" class="text-status">To receive</span>
+                                          <span *ngIf="item.status === 2" class="text-status">Shipping</span>
+                                          <span *ngIf="item.status === 3 || item.status === 5" class="text-status">
+                                            <span style="color: black"><i class="fas fa-truck"></i> Shipped |</span> Đã giao hàng
+                                          </span>
+                                          <span *ngIf="item.status === -1" class="text-status">Canceled</span>
+                                        </span>
+                                      </div>
+                                    </ng-template>
+                                  </div>
+                            </p-tabPanel>
+                        </p-tabView>
+                    </div>
+                    
+                    <div *ngIf="listOrder3.length ===0 " class="mt-3 d-flex justify-content-center">
+                        <img width="100px" height="100px" src="/assets/images/empty-cart.png" alt="">
+                    </div>
+                </p-tabPanel>
+
+                <p-tabPanel header="Canceled">
+                    <div class="mt-3">
+                        <p-tabView>
+                            <p-tabPanel *ngFor="let item of listOrder_1; index as i" header="Purchase {{i+1}}">
+                                <div class="col-md-12">
+                                    <nz-card style="width: 100%" [nzTitle]="allTitle">
+                                      <div class="row">
+                                        <div class="col-md-12">
+                                          <div *ngFor="let prod of item.listProducts" class="row mt-3" style="border-bottom: 1px solid #eaeaea">
+                                            <div class="col-md-2">
+                                              <img [src]="baseFile + prod.attachments[0]" width="100" height="100" alt="Product Image" />
+                                            </div>
+                                            <div class="col-md-8">
+                                              <div class="row">
+                                                <div class="col-md-12">
+                                                  <p (click)="viewProdDetail(prod.id)" style="font-weight: bold; cursor: pointer">
+                                                    {{ prod.name }}
+                                                  </p>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-10">
+                                                      <p class="text-muted font-weight-normal font-italic d-block">
+                                                        Loại sản phẩm:
+                                                        <span>{{ prod.categoryString }}</span>
+                                                      </p>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                      <p style="font-weight: bold">x{{ prod.count }}</p>
+                                                    </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                            <div class="col-md-2 item-center flex-block">
+                                              <h5 class="price-out">{{ prod.price | currency: 'VND' }}</h5>
+                                              <h5>{{ prod.price - prod.discount | currency: 'VND' }}</h5>
+                                            </div>
+                                          </div>
+                                          <div class="row mt-3">
+                                            <div class="col-md-12 pull-right">
+                                              <img class="img-price" src="../../../../assets//images/price.png" alt="" />
+                                              Tổng số tiền:
+                                              <span style="font-size: 25px" class="text-red">{{ item.grandTotal | currency: 'VND' }}</span>
+                                            </div>
+                                          </div>
+                                          <div class="row">
+                                            <div class="col-md-12 pull-right">
+                                              <p-button
+                                              styleClass="p-button-primary p-button-sm p-button-outlined" class="me-3"
+                                                (click)="rate(item)"
+                                                
+                                                [ngClass]="{ 'text-highlight': item.status === 3 ? true : false }"
+                                                *ngIf="item.status === 3"
+                                                label="Review"
+                                              >
+                                               
+                                              </p-button>
+                                              <p-button (click)="viewDetailOrder(item)"label="Order detail" styleClass="p-button-primary p-button-sm p-button-outlined" class="me-3" ></p-button>
+                                              <p-button
+                                                styleClass="p-button-danger p-button-sm p-button-outlined"
+                                                (click)="buildAgain()"
+                                                [ngClass]="{ 'text-highlight': item.status === -1 ? true : false }"
+                                                *ngIf="item.status === 3 || item.status === -1"
+                                                label="Buy again"
+                                              >
+                                              </p-button>
+                                              <p-button
+                                                *ngIf="item.status === 0 || (item.status === 1 && item.status !== -1)"
+                                                
+                                                label="Cancel" styleClass="p-button-danger p-button-sm p-button-outlined"
+                                                nzType="default"
+                                                (click)="cancelOrder($event,item)"
+                                              >
+                                              </p-button>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </nz-card>
+                                    <ng-template #allTitle>
+                                      <div class="row">
+                                        <div class="col-md-2 text-name-order">Order {{ item.code }}</div>
+                                        <span class="col-md-10 " style="text-align: right;">
+                                          <span *ngIf="item.status === 0" class="text-status">To confirm</span>
+                                          <span *ngIf="item.status === 1" class="text-status">To receive</span>
+                                          <span *ngIf="item.status === 2" class="text-status">Shipping</span>
+                                          <span *ngIf="item.status === 3 || item.status === 5" class="text-status">
+                                            <span style="color: black"><i class="fas fa-truck"></i> Shipped |</span> Đã giao hàng
+                                          </span>
+                                          <span *ngIf="item.status === -1" class="text-status">Canceled</span>
+                                        </span>
+                                      </div>
+                                    </ng-template>
+                                  </div>
+                            </p-tabPanel>
+                        </p-tabView>
+                    </div>
+                    <div *ngIf="listOrder_1.length ===0 " class="mt-3 d-flex justify-content-center">
+                        <img width="100px" height="100px" src="/assets/images/empty-cart.png" alt="">
+                    </div>
+  
+                </p-tabPanel>
+                
+            </p-tabView>
+            
+        </p-tabPanel>
+        <p-tabPanel header="Header III">
+            <ng-template pTemplate="header">
+                <i class="pi pi-key"></i>
+                <span>Change your paasword</span>
+            </ng-template>
+            <h3>Change your password</h3>
+            <p>Never share your password with anyone else!</p>
+            <p-divider></p-divider>
+            <div class="text-center d-flex justify-content-center">
+                <form [formGroup]="formChangePassword" class="col-md-8" (ngSubmit)="save()">
+                    <div class="row input-group">
+                        <span class="col-md-3">Old password</span>
+                        <div class="input col-md-9">
+                            <span class="p-input-icon-left w-100 ">
+                                <input formControlName="oldPassword" class="w-100" type="text" pInputText placeholder="Enter your old password" />
+                            </span>
+                        </div>
+                    </div>
+                    <div class="row input-group">
+                        <span class="col-md-3">New password</span>
+                        <div class="input col-md-9">
+                            <span class="p-input-icon-left w-100 ">
+                                <input formControlName="newPassword" class="w-100" type="text" pInputText placeholder="Enter your new password" />
+                            </span>
+                        </div>
+                    </div>
+                    <div class="row input-group">
+                        <span class="col-md-3">Confirm password</span>
+                        <div class="input col-md-9">
+                            <span class="p-input-icon-left w-100 ">
+                                <input (ngModelChange)="checkConfirmPassword()" formControlName="confirmPassword" class="w-100" type="text" pInputText placeholder="" />
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <button
+                        pButton
+                        pRipple
+                        type="submit"
+                        label="Save"
+                        class="p-button-raised"
+                        ></button>
+                    </div>
+                </form>
+            </div>
+        </p-tabPanel>
+    </p-tabView>
+    
+</div>
+<p-toast></p-toast>
+<p-sidebar [(visible)]="sidebarVisible4" position="bottom" styleClass="h-75">
+    <h3>Order detail</h3>
+               
+        <div *ngIf="viewDetail === true">
+          <nz-card [nzTitle]="detailTitle">
+            <ng-template #detailTitle>
+              <div class="row">
+                <div class="col-md-12 text-start">
+                  <div *ngIf="itemDetail.status === 0" class="text-status">
+                    <span style="color: black">Order {{ itemDetail.code }}</span> | To confirm
+                  </div>
+                  <div *ngIf="itemDetail.status === 1" class="text-status">
+                    <span style="color: black">Order {{ itemDetail.code }}</span> | To receive
+                  </div>
+                  <div *ngIf="itemDetail.status === 2" class="text-status">
+                    <span style="color: black">Order {{ itemDetail.code }}</span> | Shipping
+                  </div>
+                  <div *ngIf="itemDetail.status === 3" class="text-status">
+                    <span style="color: black"
+                      ><i class="fas fa-truck"></i><span style="color: black">Order {{ itemDetail.code }}</span> | Shipped |</span
+                    >
+                    Đã giao hàng
+                  </div>
+                  <div *ngIf="itemDetail.status === -1" class="text-status">
+                    <span style="color: black">Order {{ itemDetail.code }}</span> | Canceled
+                  </div>
+                </div>
+              </div>
+            </ng-template>
+            <!-- <nz-steps *ngIf="itemDetail.status !== -1" [nzDirection]="direction" nzLabelPlacement="vertical" [nzCurrent]="1">
+              <nz-step
+                nzTitle="Order đã đặt"
+                [nzIcon]="iconCreate"
+                nzStatus="finish"
+              ></nz-step>
+              <ng-template #iconCreate>
+                <img src="../../../../assets/images/invoice.svg" width="32" height="32" alt="" />
+              </ng-template>
+
+              <nz-step
+                *ngIf="itemDetail.phuongThucThanhToan === 2"
+                nzTitle="Order đã thanh toán({{ itemDetail.grandTotal | currency: 'VND' }})"
+                [nzIcon]="iconPayment"
+                nzStatus="finish"
+              >
+              </nz-step>
+              <ng-template #iconPayment>
+                <img src="../../../../assets/images/mobile-payment.svg" width="32" height="32" alt="" />
+              </ng-template>
+
+              <nz-step
+                [nzTitle]="itemDetail.status > 0 ? 'Đã xác nhận' : 'To confirm'"
+                [nzIcon]="icon0"
+                [nzStatus]="itemDetail.status > 0 ? 'finish' : 'wait'"
+              >
+              </nz-step>
+              <ng-template #icon0>
+                <img src="../../../../assets/images/time-left.svg" width="32" height="32" alt="" />
+              </ng-template>
+
+              <nz-step
+                [nzTitle]="itemDetail.status >= 2 ? 'Đã lấy hàng' : 'To receive'"
+                [nzIcon]="icon1"
+                [nzStatus]="itemDetail.status >= 2 ? 'finish' : 'wait'"
+              >
+              </nz-step>
+              <ng-template #icon1>
+                <img src="../../../../assets/images/package.svg" width="32" height="32" alt="" />
+              </ng-template>
+
+              <nz-step
+                nzTitle="Shipping"
+                [nzIcon]="icon2"
+                [nzStatus]="itemDetail.status === 3 || itemDetail.status === 5 ? 'finish' : 'wait'"
+              ></nz-step>
+              <ng-template #icon2>
+                <img src="../../../../assets/images/delivery-truck.svg" width="32" height="32" alt="" />
+              </ng-template>
+
+              <nz-step
+                nzTitle="Đã giao hàng"
+                [nzIcon]="icon3"
+                [nzStatus]="itemDetail.status === 3 ? 'finish' : 'wait'"
+              >
+              </nz-step>
+              <ng-template #icon3>
+                <img src="../../../../assets/images/inbox.svg" width="32" height="32" alt="" />
+              </ng-template>
+            </nz-steps>
+
+            <nz-steps *ngIf="itemDetail.status === -1" nzLabelPlacement="vertical" [nzCurrent]="1">
+              <nz-step
+                nzTitle="Order đã đặt"
+                [nzIcon]="icon1"
+                nzStatus="finish"
+              ></nz-step>
+              <ng-template #icon1>
+                <img src="../../../../assets/images/invoice.svg" width="32" height="32" alt="" />
+              </ng-template>
+              <nz-step
+                nzTitle="Order Canceled"
+                [nzIcon]="icon2"
+                nzStatus="finish"
+              ></nz-step>
+              <ng-template #icon2>
+                <img src="../../../../assets/images/cancel.svg" width="32" height="32" alt="" />
+              </ng-template>
+            </nz-steps> -->
+            <div class="row">
+                <div class="col-md-4">
+                    <h4>Address to shipping</h4>
+                    <table class="table table-summary mt-3" border="1">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Detail</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr >
+                                <td>
+                                    Customer name
+                                </td>
+                                <td>
+                                    {{ itemDetail.name }}
+                                </td>
+                            </tr>
+                            <tr >
+                                <td>
+                                    Phone Number
+                                </td>
+                                <td>
+                                    {{ itemDetail.phoneNumber }}
+                                </td>
+                            </tr>
+                            <tr >
+                                <td>
+                                    Address details
+                                </td>
+                                <td>
+                                    {{ itemDetail.addressDetail }}
+                                </td>
+                            </tr>
+                            <tr >
+                                <td>
+                                    Commune
+                                </td>
+                                <td>
+                                    {{ itemDetail.commune }}
+                                </td>
+                            </tr>
+                            <tr >
+                                <td>
+                                    District
+                                </td>
+                                <td>
+                                    {{ itemDetail.district }}
+                                </td>
+                            </tr>
+                            <tr >
+                                <td>
+                                    City
+                                </td>
+                                <td>
+                                    {{ itemDetail.city }}
+                                </td>
+                            </tr>
+                            
+                        </tbody>
+                    </table><!-- End .table table-summary -->
+                </div>
+                <div class="col-md-4">
+                    <h4>Products</h4>
+
+                    <table class="table table-summary mt-3" border="1">
+                        <thead>
+                            <tr>
+                                <th>Image</th>
+                                <th>Detail</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr *ngFor="let prod of itemDetail.listProducts" >
+                                <td>
+                                    <img [src]="baseFile + prod.attachments[0]" width="80" height="80" alt="Product Image" />
+                                </td>
+                                <td>
+                                   <a href="javascript:void(0)" (click)="viewProdDetail(prod.id)" class="d-block">{{prod.name}}</a>
+                                   <span class="d-block m-1"><b>Type: </b><span>{{ prod.categoryString }}</span></span>
+                                   <span class="d-block m-1"><b>Quantity: </b><span>{{ prod.count }}</span></span>
+
+                                </td>
+                            </tr>
+                            
+                        </tbody>
+                    </table><!-- End .table table-summary -->
+                </div>
+                <div class="col-md-4">
+                    <h4>Prices</h4>
+
+                    <table class="table table-summary mt-3" border="1">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Detail</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr >
+                                <td>
+                                    Product's prices
+                                </td>
+                                <td>
+                                    {{ itemDetail.grandTotal | currency: 'VND' | lowercase }}
+                                </td>
+                            </tr>
+                            <tr >
+                                <td>
+                                    Ship fee
+                                </td>
+                                <td>
+                                    Free
+                                </td>
+                            </tr>
+                            <tr >
+                                <td>
+                                    Total pay
+                                </td>
+                                <td>
+                                    {{itemDetail.grandTotal | currency: 'VND' | lowercase}}
+                                </td>
+                            </tr>
+                            <tr >
+                                <td>
+                                    Payment
+                                </td>
+                                <td>
+                                    {{itemDetail.phuongThucThanhToan === 0 ? 'Thanh toán khi nhận hàng' : 'Thanh toán qua ví điện tử'}}
+                                </td>
+                            </tr>
+                            
+                            
+                        </tbody>
+                    </table><!-- End .table table-summary -->
+                </div>
+            </div>
+          </nz-card>
+          
+        </div>
+</p-sidebar>

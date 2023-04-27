@@ -6,6 +6,9 @@ import { AboutUsComponent } from "./about-us/about-us.component";
 import { ContactComponent } from "./contact/contact.component";
 import { HomePageComponent } from "./home-page/home-page.component";
 import { ShopPageComponent } from "./shop-page/shop-page.component";
+import { AccountDetailComponent } from "./account-detail/account-detail.component";
+import { ProductDetailComponent } from "./product-detail/product-detail.component";
+import { CartDetailComponent } from "./cart-detail/cart-detail.component";
 
 const routes: Routes = [
     {
@@ -29,8 +32,20 @@ const routes: Routes = [
                 component: AboutUsComponent
             },
             {
+                path: 'account-detail',
+                component: AccountDetailComponent,
+            },
+            {
+                path: 'product-detail/:id',
+                component: ProductDetailComponent,
+            },
+            {
                 path: 'contact',
                 component: ContactComponent
+            },
+            {
+                path: 'cart',
+                component: CartDetailComponent
             },
         ]
     }

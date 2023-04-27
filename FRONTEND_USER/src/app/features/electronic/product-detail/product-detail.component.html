@@ -1,0 +1,244 @@
+<section id="prodetails" class="container-fluid section-p1">
+  <div class="row">
+    <div class="single-pro-img col-md-5">
+        <img [src]="myThumbnail" width="100%" id="MainImg" alt="">
+        <div class="small-img-group">
+            <div class="small-img-col" *ngFor="let item of itemQuickView.attachments" (click)="changeImage(item)">
+                <img   [src]="baseFile + item" width="100%" class="small-img" alt="">
+            </div>
+          
+        </div>
+    </div>
+    <div class="single-pro-details col-md-7">
+        <h3>{{ itemQuickView.name }}</h3>
+        <div class="single-pro-bonus">
+            <p-rating [(ngModel)]="itemQuickView.rating" [disabled]="true" [cancel]="false"></p-rating>
+            <a class="ratings-text" href="javascript:;" id="review-link"><p style="margin: 0;">( {{ listProdReview.length }} Reviews )</p></a>
+        </div>
+        <div class="single-pro-price">
+            <p class="product-old-price" *ngIf="itemQuickView.discountDefault > 0">
+                {{ itemQuickView.amoutDefault | currency: "VND" }}
+            </p>
+            <p class="product-current-price">{{itemQuickView.amoutDefault - itemQuickView.discountDefault | currency: "VND"}}</p>
+            <div class="pro-detail-tag-sale ms-3" *ngIf="(((100-((itemQuickView.amoutDefault-itemQuickView.discountDefault)/itemQuickView.amoutDefault)*100).toFixed())) !== '0'" >{{(((100-((itemQuickView.amoutDefault-itemQuickView.discountDefault)/itemQuickView.amoutDefault)*100).toFixed()))}}% discount</div>
+            
+        </div>
+        <div class="single-pro-infor">
+            <p class="single-pro-infor_title">Types</p>
+            <p>{{ itemQuickView.categoryString }}</p>
+        </div>
+        <div class="single-pro-infor">
+            <p class="single-pro-infor_title">Summary</p>
+            <p class="single-pro-infor_content">{{ itemQuickView.summary }}</p>
+        </div>
+        <div class="single-pro-infor">
+            <p class="single-pro-infor_title">Size</p>
+            <div class="product-nav product-nav-thumbs">
+                <a id="size-{{item.name}}" class="pro-size"  (click)="changeColor(item)" *ngFor="let item of listSize" href="javascript:void(0)"><span >{{item.name}}</span></a>
+            </div>
+            <a style="color: #088178;" href="">How to choose size?</a>
+        </div>
+        <div class="single-pro-infor">
+            <p class="single-pro-infor_title">Quantity</p>
+            <div >
+                <!-- <p-inputNumber class="w-1" [(ngModel)]="itemQuickView.count" [min]="1" [showButtons]="true" buttonLayout="horizontal" inputId="horizontal" spinnerMode="horizontal" [step]="1"
+                decrementButtonClass="p-button-secondary" incrementButtonClass="p-button-secondary" incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus" mode="decimal"></p-inputNumber> -->
+                <input [(ngModel)]="itemQuickView.count" pInputText min="1" type="number" />
+              </div>
+              
+        </div>
+      
+        <button (click)="addToCart(itemQuickView)" class="normal btn-add-to-cart me-3">Add To Cart</button>
+        <button (click)="buyNow(itemQuickView)" class="normal">Buy Now</button>
+
+        <div class="product-details-footer mt-3">
+          <p-tabView>
+            <p-tabPanel header="Information bonus">
+              <div class="row">
+                <div class="col-md-12">
+                  <nz-table
+                    [nzPageSize]="10"
+                    #basicTable
+                    [nzData]="
+                      itemQuickView
+                        ? itemQuickView.productMetas
+                        : []
+                    "
+                  >
+                    <thead>
+                      <tr>
+                        <th>Mã</th>
+                        <th>Nội dung</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr
+                        *ngFor="
+                          let data of itemQuickView ? basicTable.data : []
+                        "
+                      >
+                        <td>{{ data.key }}</td>
+                        <td>{{ data.content }}</td>
+                      </tr>
+                    </tbody>
+                  </nz-table>
+                </div>
+              </div>
+            </p-tabPanel>
+            <p-tabPanel header="Return policy">
+              <p><span >- Được kiểm tra hàng trước khi nhận hàng</span><br ><span >- Đổi / Trả trong vòng 7 ngày kể từ khi nhận hàng</span><br ><span >- Không áp dụng đổi/trả sản phẩm trong CTKM</span><br ><span >- Miễn phí đổi trả nếu lỗi sai sót từ phía CARA</span></p>
+            </p-tabPanel>
+            <p-tabPanel header="Customer offers">
+              <p><span class="d-block mt-1">- GIAO HÀNG 24 GIỜ NỘI THÀNH</span><br ><span class="d-block mt-1">- ĐỔI HÀNG TRONG VÒNG 7 NGÀY</span><br ><span class="d-block mt-1">- TỔNG ĐÀI BÁN HÀNG 0964.496.713</span></p>
+
+            </p-tabPanel>
+          </p-tabView>
+          
+            
+            <!-- End .product-cat -->
+          </div>
+        
+    </div>
+  </div>
+</section>
+
+
+
+<section class="section-p1">
+    
+    <p-tabView>
+        <p-tabPanel header="Product Information">
+            <div
+            class="product-desc-content"
+            [innerHTML]="itemQuickView.description"
+          ></div>
+        </p-tabPanel>
+        <p-tabPanel header="Comments and Reviews ({{ listProdReview.length }})">
+            <p-card style="width: 100%" header="Some reviews about this product">
+                
+                <div class="aa-product-review-area">
+                  <ng-template #commentTemplateRef let-comment="comment">
+                    <nz-comment [nzAuthor]="comment.userName" [nzDatetime]="comment.createdDate">
+                      <nz-avatar nz-comment-avatar [nzIcon]="'user'" [nzSrc]="comment.avatarUrl"></nz-avatar>
+                      <nz-comment-content> </nz-comment-content>
+                      <nz-comment-content>
+                        <nz-rate *ngIf="comment.isRoot === true" [ngModel]="comment.rating" nzDisabled> </nz-rate>
+                      </nz-comment-content>
+                      <nz-comment-content>
+                        <div [innerHTML]="comment.content"></div>
+                      </nz-comment-content>
+                      <nz-comment-action
+                        ><span [hidden]="comment.checked === true" (click)="openReply(comment.id)">Trả lời</span></nz-comment-action
+                      >
+                      <nz-comment-content [hidden]="comment.checked === false" *ngIf="comment.checked === true">
+                        <nz-form-item>
+                          <textarea [(ngModel)]="inputValue" pInputText class="w-100" rows="4"></textarea>
+                        </nz-form-item>
+                        <nz-form-item>
+                          <button
+                            nz-button
+                            nzType="primary"
+                            [disabled]="!inputValue"
+                            (click)="submitComment(comment.id, 2)"
+                          >
+                           Answer
+                          </button>
+                          <button style="margin-left: 15px" nz-button nzType="primary" (click)="handleClose(comment.id)">
+                            Close
+                          </button>
+                        </nz-form-item>
+                      </nz-comment-content>
+                      <ng-container *ngIf="comment.children && comment.children.length">
+                        <ng-template ngFor let-child [ngForOf]="comment.children">
+                          <ng-template [ngTemplateOutlet]="commentTemplateRef" [ngTemplateOutletContext]="{ comment: child }">
+                          </ng-template>
+                        </ng-template>
+                      </ng-container>
+                    </nz-comment>
+                  </ng-template>
+  
+                  <div *ngFor="let item of listRs | slice: (pageIndex - 1) * pageSizes:(pageIndex - 1) * pageSizes + pageSizes">
+                    <ng-template [ngTemplateOutlet]="commentTemplateRef" [ngTemplateOutletContext]="{ comment: item }">
+                    </ng-template>
+                    <hr />
+                  </div>
+                  <nz-pagination
+                    style="float: right; margin-top: 15px"
+                    [(nzPageIndex)]="pageIndex"
+                    [(nzPageSize)]="pageSizes"
+                    [nzTotal]="listRs.length"
+                  >
+                  </nz-pagination>
+                  <p-card header="Give your comments">
+
+                      <div class="aa-your-rating">
+                        <p>Bạn đánh giá</p>
+                        <nz-rate [(ngModel)]="value" [nzTooltips]="tooltips"></nz-rate>
+                        <span *ngIf="value" class="ant-rate-text">{{ value ? tooltips[value - 1] : '' }}</span>
+                      </div>
+                      <!-- review form -->
+                      <form action="" class="aa-review-form">
+                        <div class="form-group">
+                          <nz-comment>
+                            <nz-avatar
+                              nz-comment-avatar
+                              [routerLink]="'/account-detail'"
+                              nzIcon="user"
+                              [nzSrc]="token ? userInfo.avatar : ''"
+                            >
+                            </nz-avatar>
+                            <nz-comment-content>
+                              <nz-form-item>
+                                <nz-textarea-count style="width: 100%;" [nzMaxCharacterCount]="100">
+                                  <textarea pInputText class="w-100" [ngModelOptions]="{standalone: true}" rows="6" [(ngModel)]="inputReview" nz-input></textarea>
+                                </nz-textarea-count>
+                              </nz-form-item>
+                            </nz-comment-content>
+                          </nz-comment>
+                        </div>
+      
+                        <div class="item-center">
+                          <button pButton style="align-items: center;" type="button" (click)="submitComment(null, 1)" class="btn btn-primary btn-rounded">
+                            Đánh giá
+                          </button>
+                        </div>
+                      </form>
+                  </p-card>
+                </div>
+              </p-card>
+        </p-tabPanel>
+    </p-tabView>
+</section>
+<section id="product1" class="section-p1">
+  <h3>Related Product</h3>
+  <p>Some product you can also looking for</p>
+  <div class="pro-container row">
+      <div class="pro col-md-3" *ngFor="let item of listSimilarActive | slice: (pageIndexSimilar - 1) * pageSizeSimilar:(pageIndexSimilar - 1) * pageSizeSimilar + pageSizeSimilar">
+          <a  (click)="viewDetail(item.id)"  href="javascript:void(0)">
+              <!-- <img [src]="baseFile + item.attachments[0]" alt=""> -->
+              <div class="pro-img">
+                <img [src]="baseFile + item.attachments[0]" alt="">
+                <div *ngIf="(((100-((item.amoutDefault-item.discountDefault)/item.amoutDefault)*100).toFixed())) !== '0'" class="pro-sale-tag">-{{(((100-((item.amoutDefault-item.discountDefault)/item.amoutDefault)*100).toFixed()))}}%</div>
+            </div>
+          </a>
+          
+
+          <div class="des">
+              <span>{{item.categoryString}}</span>
+              <h4>{{item.name}}</h4>
+              <div class="star mt-1">
+                  <p-rating [(ngModel)]="item.rating" [disabled]="true" [cancel]="false"></p-rating>
+                  
+                  
+              </div>
+              <p>{{item.amoutDefault-item.discountDefault | currency: 'VND'}}</p>
+          </div>
+
+         <div class="view-more" (click)="viewDetail(item.id)">
+              <i class="pi pi-eye"></i>
+         </div>
+      </div>
+  </div>
+</section>
+<router-outlet></router-outlet>
+<p-toast></p-toast>

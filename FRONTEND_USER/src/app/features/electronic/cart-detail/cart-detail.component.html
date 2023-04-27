@@ -1,0 +1,79 @@
+<section id="page-header" class="about-header">
+    <h2>#viewcart</h2>
+    <p>Thanks for buying our products</p>
+</section>
+
+<section id="cart" class="section-p1">
+    <table width="100%">
+        <thead>
+            <tr>
+                <td>REMOVE</td>
+                <td>IMAGE</td>
+                <td>PRODUCT</td>
+                <td>PRICE</td>
+                <td>QUANTITY</td>
+                <td>SUBTOTAL</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of listCart">
+                <td><p-button styleClass="p-button-text" (click)="removeItem(item)" ><i class="pi pi-trash"></i></p-button></td>
+                <td><img [src]="item.urlImageActive" alt=""></td>
+                <td style=" overflow: hidden;"><a style="font-size: 16px;" href="javascript:void(0)"  (click)="viewDetail(item.id)">{{item.name}}</a></td>
+                <td style="font-size: 16px">{{ item.count }} x <span
+                    *ngIf="item.discountDefault > 0"
+                    class="product-old-price"
+                    >{{ item.amoutDefault | currency: "VND" }}</span
+                  ><span>
+                    {{
+                      item.amoutDefault - item.discountDefault
+                        | currency: "VND"
+                    }}</span
+                  ></td>
+                <td><input type="number" min="1" pInputText value="1" [(ngModel)]="item.count"></td>
+                <td style="font-size: 16px;">{{ item.count * (item.amoutDefault - item.discountDefault) | currency: "VND" }}</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="d-flex flex-wrap justify-content-between" >
+        <button class="normal mt-3"><a class="text-white" href="javascript:void(0)" [routerLink]="['/shop']"><i class="pi pi-chevron-left"></i> Shopping now!</a></button>
+        <button (click)="GetListCart()" class="normal mt-3">Update cart!</button>
+
+    </div>
+
+</section>
+
+
+<section id="cart-add" class="section-p1">
+    <div class="container-fluid">
+        <div class="row">
+            <div id="coupon" class="col-md-6 col-sm-12">
+                <h3>Apply Coupon</h3>
+                <div>
+                    <input type="text" placeholder="Enter Your Coupon">
+                    <button class="normal"> Apply</button>
+                </div>
+            </div>
+            <div id="subtotal" class="col-md-6 col-sm-12">
+                <h3>Cart Totals</h3>
+                <table>
+                    <tr>
+                        <td>Cart Subtotal</td>
+                        <td>{{ total | currency: "VND" }}</td>
+                    </tr>
+                    <tr>
+                        <td>Shipping</td>
+                        <td>Free</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Total</strong></td>
+                        <td><strong>{{ total | currency: "VND" }}</strong></td>
+                    </tr>
+                </table>
+                <button class="normal"><a class="text-white" href="javascript:void(0)" [routerLink]="['/checkout']">Proceed to checkout</a></button>
+            </div>
+        </div>
+    </div>
+
+</section>
+<p-toast></p-toast>

@@ -1,0 +1,13 @@
+i {
+    margin-right: 10px;
+}
+
+.input-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+h3 {
+    color: #088178;
+}
