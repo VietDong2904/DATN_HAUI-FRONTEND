@@ -1,0 +1,88 @@
+<section id="page-header">
+    <h2>#stayhome</h2>
+    <p>Save more will coupons & up to 70% off!</p>
+</section>
+
+    
+<section class="section-p1">
+    <div class="row">
+        <div class="col-md-2">
+            <div class="p-3 categories">
+                
+                <p-accordion class=" mt-3" [multiple]="true"  [activeIndex]="0">
+                    <p-accordionTab header="Categories">
+                        <p>
+                            <nz-tree [nzData]="nodes" nzShowIcon [nzExpandedIcon]="multiExpandedIconTpl" nzShowLine (nzClick)="treeViewClick($event)"> </nz-tree>
+                            <ng-template #multiExpandedIconTpl let-node let-origin="origin">
+                                <i *ngIf="!origin.isLeaf" nz-icon [nzType]="node.isExpanded ? 'down' : 'right'" class="ant-tree-switcher-line-icon"></i>
+                                <i *ngIf="origin.isLeaf" nz-icon nzType="right" nzTheme="outline"></i>
+                            </ng-template>
+                        </p>
+                    </p-accordionTab>
+                    <p-accordionTab header="Brands">
+                        <ul class="cate-list">
+                            <li *ngFor="let item of listSuplier" (click)="searchBySuplier(item)" >{{item.name}}</li>
+            
+                        </ul>
+                    </p-accordionTab>
+                  
+                </p-accordion>
+            </div>
+        </div>
+        <div class="col-md-10">
+            <div class="product-wrapper">
+                <section class="product-tools row">
+                    <div class="product-tool_wrapper">
+                        <h5>Sort by</h5>
+                        <!-- <button  *ngFor="let item of listSortType2" (click)="filterHandlerClick(item)" class="product-btn">{{item.name}}</button>
+                        <nz-select [nzHide]="true"  nzBorderless  [ngModelOptions]="{standalone: true}" (ngModelChange)="filterHandler(1, $event)" [(ngModel)]="sortType2">
+                            <nz-option  *ngFor="let item of listSortType2" [nzValue]="item.id" [nzLabel]="item.name"> </nz-option>
+                          </nz-select> -->
+                        
+                        <nz-form-control nzSpan="6">
+                            <div class="product-select" style="padding: 12px;">
+                                <nz-select nzBorderless  [ngModelOptions]="{standalone: true}" (ngModelChange)="filterHandler(1, $event)" [(ngModel)]="sortType">
+                                  <nz-option *ngFor="let item of listSortType" [nzValue]="item.id" [nzLabel]="item.name"> </nz-option>
+                                </nz-select>
+                            </div>
+                        </nz-form-control>
+                    </div>
+                </section>
+                <div class="pro-container row">
+                    <div *ngFor="let item of listProduct" class="pro col-md-3">
+                        <a  (click)="viewDetail(item.id)"  href="javascript:void(0)">
+                            <div class="pro-img">
+                                <img [src]="item.urlImageActive" alt="">
+                                <div *ngIf="(((100-((item.amoutDefault-item.discountDefault)/item.amoutDefault)*100).toFixed())) !== '0'" class="pro-sale-tag">-{{(((100-((item.amoutDefault-item.discountDefault)/item.amoutDefault)*100).toFixed()))}}%</div>
+                            </div>
+                        </a>
+                        
+            
+                        <div class="des">
+                            <span>{{item.categoryString}}</span>
+                            <h4>{{item.name}}</h4>
+                            <div class="star mt-1">
+                                <p-rating [(ngModel)]="item.rating" [disabled]="true" [cancel]="false"></p-rating>
+                                
+                                
+                            </div>
+                            <p>{{item.amoutDefault-item.discountDefault | currency: 'VND'}}</p>
+                        </div>
+            
+                       <div class="view-more" (click)="viewDetail(item.id)">
+                            <i class="pi pi-eye"></i>
+                       </div>
+                    </div>
+                    
+                </div>
+                <div class="text-center d-flex justify-content-center mt-3">
+                    <nz-pagination (click)="changePageIndex()" style="float: right;"  [(nzPageIndex)]="pageNumber" [nzPageSize]="pageSize" [nzTotal]="totalCount" nzSimple></nz-pagination>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+</section>
+
+

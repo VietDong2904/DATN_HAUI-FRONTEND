@@ -53,6 +53,8 @@ import { FooterPageComponent } from './footer-page/footer-page.component';
 import { BenefitsComponent } from './benefits/benefits.component';
 import { AboutUsComponent } from './about-us/about-us.component';
 import { ContactComponent } from './contact/contact.component';
+import { HomePageComponent } from './home-page/home-page.component';
+import { ShopPageComponent } from './shop-page/shop-page.component';
 export function HttpLoaderFactory(http: HttpClient) {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
   }
@@ -64,7 +66,9 @@ export function HttpLoaderFactory(http: HttpClient) {
         FooterPageComponent,
         BenefitsComponent,
         AboutUsComponent,
-        ContactComponent
+        ContactComponent,
+        HomePageComponent,
+        ShopPageComponent
     ],
     imports: [
         BrowserModule,
