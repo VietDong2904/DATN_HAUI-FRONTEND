@@ -1,0 +1,180 @@
+<section id="page-header">
+    <h2>#checkout</h2>
+    <p>The last step to complete your purchases</p>
+</section>
+
+<main class="main">
+    <div class="page-header text-center" style="background-image: url('assets/images/page-header-bg.jpg')">
+        <div class="container">
+        </div><!-- End .container -->
+    </div><!-- End .page-header -->
+    
+    <div class="page-content">
+        <div class="checkout">
+            <div class="container mb-5">
+                <form action="#">
+                    <div class="row">
+                        <div class="col-lg-9 mt-5">
+                            <div class="p-3" style="border: 1px solid #088178;" >
+                                <form  [formGroup]="form" (ngSubmit)="save()">
+                                    <div class="row input-group mt-3 d-flex align-items-center">
+                                        <span class="col-md-2">Fullname</span>
+                                        <div class="input col-md-10">
+                                            <span class="p-input-icon-left w-100 ">
+                                                <i class="pi pi-info-circle"></i>
+                                                <input formControlName="name" class="w-100" type="text" pInputText placeholder="Enter your fullname" />
+                                            </span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row input-group mt-3 d-flex align-items-center">
+                                        <span class="col-md-2">Email</span>
+                                        <div class="input col-md-10">
+                                            <span class="p-input-icon-left w-100 ">
+                                                <i class="pi pi-envelope"></i>
+                                                <input formControlName="email" class="w-100" type="text" pInputText placeholder="Enter your email" />
+                                            </span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row input-group mt-3 d-flex align-items-center">
+                                        <span class="col-md-2">Phone number</span>
+                                        <div class="input col-md-10">
+                                            <span class="p-input-icon-left w-100 ">
+                                                <i class="pi pi-phone"></i>
+                                                <input formControlName="phoneNumber" class="w-100" type="text" pInputText placeholder="Enter your phonenumber" />
+                                            </span>
+                                        </div>
+                                    </div>
+    
+                                    <div class="row input-group mt-3 d-flex align-items-center">
+                                        <span class="col-md-2">City</span>
+                                        <div class="input col-md-10 ">
+                                            <span class="p-input-icon-left w-100 ">
+                                                <i class="pi pi-phone"></i>
+                                                <p-dropdown placeholder="Choose a city" formControlName="city" [options]="listCity" (ngModelChange)="changeCity($event)" [optionLabel]=""></p-dropdown>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row input-group mt-3 d-flex align-items-center">
+                                        <span class="col-md-2">District</span>
+                                        <div class="input col-md-10 ">
+                                            <span class="p-input-icon-left w-100 ">
+                                                <i class="pi pi-phone"></i>
+                                                <p-dropdown placeholder="Choose a district" formControlName="district" [options]="listDistrict" (ngModelChange)="changeDistrict($event)" [optionLabel]=""></p-dropdown>
+                                            </span>
+                                        </div>
+                                    </div>
+    
+                                    <div class="row input-group mt-3 d-flex align-items-center">
+                                        <span class="col-md-2">Commune</span>
+                                        <div class="input col-md-10 ">
+                                            <span class="p-input-icon-left w-100 ">
+                                                <i class="pi pi-phone"></i>
+                                                <p-dropdown placeholder="Choose a commune" formControlName="commune" [options]="listCommune"  [optionLabel]=""></p-dropdown>
+                                            </span>
+                                        </div>
+                                    </div>
+    
+                                    <div class="row input-group mt-3 d-flex align-items-center">
+                                        <span class="col-md-2">Address detail</span>
+                                        <div class="input col-md-10">
+                                            <span class="p-input-icon-left w-100 ">
+                                                <i class="pi pi-home"></i>
+                                                <input formControlName="addressDetail" class="w-100" type="text" pInputText placeholder="Enter your address detail" />
+                                            </span>
+                                        </div>
+                                    </div>
+    
+                                    <div class="row input-group mt-3 d-flex align-items-center">
+                                        <span class="col-md-2">Note</span>
+                                        <div class="input col-md-10">
+                                            <span class="p-input-icon-left w-100 ">
+                                                <i class="pi pi-pencil" style="top: 25px"></i>
+                                                <textarea formControlName="note" rows="5" class="w-100" type="text" pInputTextarea  placeholder="Enter your note" ></textarea>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div><!-- End .col-lg-9 -->
+                        <aside class="col-lg-3">
+                            <div class="summary p-3 mt-5 " style="border: 1px solid #088178;" >
+                                <h4 class="summary-title">Your purchase</h4><!-- End .summary-title -->
+                                <p-divider></p-divider>
+                                <table class="table table-summary">
+                                    <thead>
+                                        <tr>
+                                            <th>Product</th>
+                                            <th>Subtotal</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        <tr *ngFor="let item of listCart">
+                                            <td>
+                                                <a href="javascript:void(0)" (click)="viewDetail(item.id)">{{item.name}}</a>
+                                            </td>
+                                            <td>
+                                               {{item.count}} x <span *ngIf="item.discountDefault > 0" class="product-old-price">{{item.amoutDefault | currency:'VND'}}</span> 
+                     <span> {{(item.amoutDefault - item.discountDefault) | currency:'VND'}}</span>
+                     <br>
+                     =
+                     <span>{{item.subTotal| currency:'VND'}}</span>
+                                            </td>
+                                        </tr>
+                                        <tr class="summary-subtotal">
+                                            <td>Total price:</td>
+                                            <td>{{total| currency:'VND'}}</td>
+                                        </tr><!-- End .summary-subtotal -->
+                                        <tr>
+                                            <td>Shipping:</td>
+                                            <td>Free</td>
+                                        </tr>
+                                        <tr class="summary-total">
+                                            <td>Total:</td>
+                                            <td>{{total| currency:'VND'}}</td>
+                                        </tr><!-- End .summary-total -->
+                                    </tbody>
+                                </table><!-- End .table table-summary -->
+
+                                <div class="accordion-summary" id="accordion-ment">
+
+                                    <div class="card">
+                                        <p-accordion >
+                                            <p-accordionTab (click)="changePaymentType(0)" header="Pay shipping">
+                                                <p>
+                                                    Shipping and receiving all products at home
+                                                </p>
+                                            </p-accordionTab>
+                                            <p-accordionTab  (click)="changePaymentType(1)" header="Paypal">
+                                                <p>
+                                                    Paypal is simply understood as an intermediary service used to pay and transfer money internationally over the Internet. With Paypal, you can pay when shopping online abroad or receive payments from abroad sent to Vietnam.
+                                                </p>
+                                            </p-accordionTab>
+                                            <div *ngIf="paymentType === 1 && form.valid" class="col-12">
+                                                <ngx-paypal [config]="payPalConfig"></ngx-paypal>
+                                                </div>
+                                        </p-accordion>
+                                    </div><!-- End .card -->
+
+                                    <div class="card">
+                                        
+                                        
+                                        
+
+                                    </div><!-- End .card -->
+                                </div><!-- End .accordion -->
+
+                                <button class="mt-3 w-100" pButton [disabled]="listCart.length === 0" (click)="save()" type="submit" label="Order" >
+                                    
+                                </button>
+                            </div><!-- End .summary -->
+                        </aside><!-- End .col-lg-3 -->
+                    </div><!-- End .row -->
+                </form>
+            </div><!-- End .container -->
+        </div><!-- End .checkout -->
+    </div><!-- End .page-content -->
+</main><!-- End .main -->
+<p-toast></p-toast>

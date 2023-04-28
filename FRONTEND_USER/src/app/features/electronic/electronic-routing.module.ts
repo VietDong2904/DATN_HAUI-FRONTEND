@@ -9,6 +9,8 @@ import { ShopPageComponent } from "./shop-page/shop-page.component";
 import { AccountDetailComponent } from "./account-detail/account-detail.component";
 import { ProductDetailComponent } from "./product-detail/product-detail.component";
 import { CartDetailComponent } from "./cart-detail/cart-detail.component";
+import { CheckoutComponent } from "./checkout/checkout.component";
+import { ConfirmComponent } from "./confirm/confirm.component";
 
 const routes: Routes = [
     {
@@ -46,6 +48,15 @@ const routes: Routes = [
             {
                 path: 'cart',
                 component: CartDetailComponent
+            },
+            {
+                path: 'checkout',
+                component: CheckoutComponent
+            },
+            {
+                path: 'confirm/:id',
+                component: ConfirmComponent,
+                data: { title: 'Đặt hàng thành công' },
             },
         ]
     }
